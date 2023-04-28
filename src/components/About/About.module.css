@@ -1,0 +1,38 @@
+.divContainer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 5%;
+    background-color: rgba(87, 255, 255, 0.432);
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px;
+    border: 3px solid  rgba(87, 255, 255, 0.63);
+}
+
+.divDatos {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 500px;
+    margin: 5px;
+    color: rgb(0, 0, 0);
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+}
+
+.info{
+    margin-top: 0;
+}
+
+.titles{
+    margin-bottom: 0;
+}
+
+.img {
+    border:4px double #ffa703;
+    border-radius: 50%;
+    max-width: 300px;
+}
