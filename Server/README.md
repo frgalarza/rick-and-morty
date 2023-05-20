@@ -1,4 +1,4 @@
-# **💪 HW7 | Testing - Integration**
+# **💪 HW3 | Sequelize Part 2 - Integration**
 
 ## **🕒 DURACIÓN ESTIMADA**
 
@@ -16,147 +16,183 @@ XX minutos
 
 ## **📝 INTRODUCCIÓN**
 
-En esta homework construiremos algunos test para validar que nuestro proyecto esté funcionando correctamente.
+En esta homework nos encargaremos de terminar de integrar una base de datos en nuestro proyecto de Rick and Morty componiendo nuevos controladores.
 
-Te daremos instrucciones solo para construir algunos test del lado de tu Back-End, pero tu puedes crear todos los que gustes.
-
-Finalmente te brindaremos información para que aprendas a testear tu Front-End.
-
-<br />
+</br >
 
 ---
 
 ## **📋 INSTRUCCIONES**
 
-### **👩‍💻 EJERCICIO 01 | Dependencias**
+Para esta primera homework ya no necesitaremos algunos archivos y carpetas, por lo que te invitamos a eliminar los siguiente:
 
-Instala las siguientes dependencias en el **`package.json`** de tu servidor:
+-  Caperta **`utils`** con todo lo que tiene dentro.
+-  Archivo **`/controllers/handleFavorites.js`**.
+-  Archivo **`/controllers/login.js`**.
 
--  **jest**
--  **supertest**
+<br />
 
-Además, dentro del **`package.json`** deberás agregar el siguiente script:
+### **👩‍💻 EJERCICIO 01 | POST USER**
 
-```bash
-   "test": "jest --detectOpenHandles"
+Dirígete a tu carpeta **controllers**:
+
+1. Crea un nuevo archivo con el nombre **`postUser.js`**.
+
+2. Dentro de este archivo tendrás que importar tu modelo **User**.
+
+> [**NOTA**]: deberás importar este modelo de tu archivo **`DB_connection`** ya que desde allí está activo dentro de tu base de datos.
+
+3. Crea una función llamada **`postUser`** y expórtala. Esta función debe recibir por parámetro los objetos **`req`** y **`res`**. Además, esta función es asincrónica, ¡por lo que deberás trabajar con promesas o async await!
+
+4. Dentro de la función deberás recibir un **email** y una **password** por **`Body`**.
+
+5. Una vez recibido, deberás validar que realmente hayas recibido ambos y que no sean, por ejemplo, un string vacío. En el caso de no recibir alguno de los dos deberás responder con un **`status 400`** y devolver un mensaje que diga: **"_Faltan datos_"**.
+
+6. En el caso de si recibir ambos datos deberás guardarlos dentro de tu modelo. Una vez realizado responde con el usuario guardado.
+
+> [**NOTA**]: puedes utilizar el método **`findOrCreate`**.
+
+> [**NOTA**]: en el caso de haber un error responde con **`status 500`** y el mensaje del error.
+
+</br>
+
+---
+
+### **👩‍💻 EJERCICIO 02 | LOGIN**
+
+Ahora si crearemos un controlador que valide la información de nuestra base de datos. Elimina por completo la carpeta **utils**.
+
+1. Crea un archivo llamado **`login.js`**. Dentro de este archivo deberás importar tu modelo **User**.
+
+2. Crea una función llamada **`login`** la cual reciba por parámetro los objetos **`req`** y **`res`**. No olvides exportarla.
+
+3. Recibiras por **`Query`** los datos **email** y **password**.
+
+4. En el caso de no recibir alguno de los datos, responde con un **`status 400`** y el mensaje **"_Faltan datos_"**.
+
+5. Si ambos datos llegan correctamente tendrás que buscar aquel usuario que tenga el mismo email que recibiste anteriormente. En el caso de no encontrarlo responde con un **`status 404`** y el mensaje **"_Usuario no encontrado_"**.
+
+6. En el caso de encontrar a un usuario con ese mismo email solo tendrás ahora que comparar si su **password** es igual a la **password** que recibiste anteriormente. En el caso de no serlo responde con un **`status 403`** y un mensaje que diga **"_Contraseña incorrecta_"**.
+
+7. En el caso de que las contraseñas si coincidan, responde con el objeto:
+
+```js
+{
+   access: true;
+}
 ```
 
-<br />
+> [**NOTA**]: en el caso de haber un error responde con **`status 500`** y el mensaje del error.
+
+</br>
 
 ---
 
-### **👩‍💻 EJERCICIO 02 | Modularizar el Server**
+### **👩‍💻 EJERCICIO 03 | POST FAV**
 
-1. Dentro de la carpeta **src** debes crear un archivo llamado **`app.js`**.
+1. Crea un nuevo archivo llamado **`postFav.js`**. Dentro de este archivo deberás importar tu modelo **Favorite**.
 
-2. Luego de crealo tendrás que copiar y pegar todo lo que tienes en tu archivo **`index.js`** dentro de este, exceptuando la ejecución de la función **listen**. Esta función debe permanecer en tu archivo **`index.js`**.
+2. Crea una función llamada **`postFav`** la cual reciba por parámetro los objetos **`req`** y **`res`**.
 
-3. Dentro de tu archivo **`app.js`** debes exportar tu servidor, y luego importarlo dentro de tu archivo **`index.js`**.
+3. Deberás recibir las propiedades **name**, **origin**, **status**, **image**, **species** y **gender** por **`Body`**.
 
-> [**NOTA**]: ten en cuenta que la variable PORT (si es que tienes una) debe permanecer en el archivo **`index`**.
+4. Valida que todos los datos estén llegando correctamente. Caso contrario responde con un **`status 401`** y el mensaje **"_Faltan datos_"**.
 
-<br />
+5. Si todos los datos llegan como corresponde, guarda tu personaje en la base de datos.
 
----
+6. Una vez guardado, busca todos los personajes favoritos guardados en tu base de datos y responde con ese arreglo.
 
-### **👩‍💻 EJERCICIO 03 | Testing Template**
+> [**NOTA**]: puedes utilizar el método **`findOrCreate`**.
 
-Dirígete a la carpeta **test**. En esta crea un archivo llamado **`index.test.js`**. Aquí desarrollaremos el testing.
+> [**NOTA**]: en el caso de haber un error responde con **`status 500`** y el mensaje del error.
 
-1. Dentro del archivo que acabas de crear tendrás que importar los siguientes elementos:
-
-   ```javascript
-   const app = require('../src/app');
-   const session = require('supertest');
-   const agent = session(app);
-   ```
-
-2. Crea la primer función **describe** con el mensaje **"_Test de RUTAS_"**.
-
-Recuerda que todos los ejercicios de testing serán asincrónicos, ya que estaremos ejecutando rutas. ¡Puedes utilizar **promesas** o **async await**!
-
-<br />
+</br>
 
 ---
 
-### **👩‍💻 EJERCICIO 04 | GET /rickandmorty/character/:id**
+### **👩‍💻 EJERCICIO 04 | DELETE FAV**
 
-Crea un **describe** con el mensaje '**`GET /rickandmorty/character/:id`**'.
+1. Crea un nuevo archivo con el nombre **`deleteFav.js`**. Dentro de este archivo tendrás que importar tu modelo **Favorite**.
 
-1. **PRIMER TEST**:
+2. Crea una función con el nombre **`deleteFav`** y expórtala. Esta función debes recibir por parámetro los objetos **`req`** y **`res`**.
 
-   Crea un **it** con el mensaje '**`Responde con status: 200`**'. En su **callback** pega el siguiente código:
+3. Recibirás un **id** por parámetro. Tendrás que eliminar este personaje de tu tabla de favoritos.
 
-   ```javascript
-   await agent.get('/rickandmorty/character/1').expect(200);
-   ```
+4. Finalmente responde con una arreglo que contenga a todos tus personajes favoritos.
 
-2. **SEGUNDO TEST**:
+> [**NOTA**]: puedes utilizar el query: **`destroy`**.
 
-   Crea un **it** con el mensaje '**`Responde un objeto con las propiedades: "id", "name", "species", "gender", "status", "origin" e "image"`**'.
+> [**NOTA**]: en el caso de haber un error responde con **`status 500`** y el mensaje del error.
 
-   Aquí tendrás que obtener la respuesta de esta ruta. Valida si en la propiedad **body** de la respuesta obtienes todas las propiedades correspondientes.
-
-> [**PISTA**]: podrías validar esto con el métodos [**`toHaveProperty`**](https://jestjs.io/docs/expect#tohavepropertykeypath-value).
-
-3. **TERCER TEST**:
-
-   Crea un **it** con el mensaje '**`Si hay un error responde con status: 500`**'. Aquí tendrás que validar que este será el status si se ingresa un id que no existe para buscar al personaje. Es decir, tendrás que forzar el error.
-
-<br />
+</br>
 
 ---
 
-### **👩‍💻 EJERCICIO 05 | GET /rickandmorty/login**
+### **👩‍💻 EJERCICIO 05 | Update routes**
 
-Crea un nuevo describe con el comentario: **"_GET /rickandmorty/login_"**. En este test tendrás que validar dos cosas:
+Dirígete a tu archivo **`/routes/index.js`**. Dentro de este tendrás que importar tus nuevos controladores y aplicarlos en las rutas correspondientes. Las nuevas rutas deben ser las siguientes:
 
-1. Valida que, si ejecutas esta ruta pasándole la información de login (email y password) correctas, debes obtener un objeto como este:
+-  **GET** **`/login`**
+-  **POST** **`/login`**
+-  **POST** **`/fav`**
+-  **DELETE** **`/fav/:id`**
 
-   ```js
-   {
-      access: true;
-   }
-   ```
+> [**NOTA**]: la única ruta que no se modifica es **`getCharById`**.
 
-> [**NOTA**]: recuerda que la información la debes enviar por **`Query`**. Además, recuerda que la información de login se encuentra en tu achivo **`/src/utils/index`**.
-
-2. Ahora tendrás que testear que en el caso de enviar la información incorrecta la porpiedad **access** sea **`false`**.
-
-<br />
+</br>
 
 ---
 
-### **👩‍💻 EJERCICIO 06 | POST /rickandmorty/fav**
+### **👩‍💻 EJERCICIO 06 | Usuario de prueba**
 
-Crea un nuevo describe con el texto : **"_POST /rickandmorty/fav_"**. Dentro de este test tendrás que validar:
+Antes de ir a probar nuestra aplicación tendremos que crear un usuario en nuestra base de datos.
 
-1. Lo que envíes por body debe ser devuelto en un arreglo.
+Lo normal es que en nuestro Front-End exista un formulario **`sign up`** o **`registrate`**, pero nosotros no tenemos un (aún 😏).
 
-2. Si vuelves a enviar un nuevo elemento por body, este debe ser devuelto en un arreglo que incluye un elemento enviado previamente.
+Tendremos que crear un usuario manualemente. Para esto abre tu **Cliente API** favorito. Puede ser, por ejemplo:
 
-<br />
+-  [**Thunder Client**](https://www.thunderclient.com/)
+-  [**Insomnia**](https://www.postman.com/)
+-  [**Postman**](https://insomnia.rest/download)
 
----
+1. Has un request de tipo **POST** a la ruta **`http://localhost:3001/rickandmorty/login`**.
 
-### **👩‍💻 EJERCICIO 07 | DELETE /rickandmorty/fav/:id**
+2. Tendrás que enviar por **BODY** los datos: **`email`** y **`password`**.
 
-Crea un nuevo describe con el texto : **"_DELETE /rickandmorty/fav/:id_"**. Dentro de este test tendrás que validar:
-
-1. Primero deberás testear que lo que devuelva esta ruta, en el caso de que no haya ningún personaje con el ID que envías, sea un arreglo con los elementos previos sin modificar.
-
-2. Luego debes testear que cuando envías un ID válido se elimine correctamente al personaje.
-
-<br />
+</br>
 
 ---
 
-## **💪 EXTRA CREDIT | Testing Front-End**
+<div align="center">
 
-Te invitamos a que revises los **`Recursos adicionales`** para investigar como testear un **Front-End** con React y Jest.
+## **😁 ¡FELICITACIONES! 😁**
 
-## **🔎 Recursos adicionales**
+</div>
 
--  Documentación [**Matchers From Jest**](https://jestjs.io/docs/using-matchers)
--  Documentación [**React-Jest Testing**](https://testing-library.com/docs/react-testing-library/intro/)
--  Documentación [**Jest - Enzyme**](https://enzymejs.github.io/enzyme/docs/guides/jest.html)
+😎 Acabas de finalizar la homework integradora del bootcamp. Tu aplicación está lista para ser utilizada.
+
+🤓 Por supuesto que hay muchas cosas que se pueden mejorar y cosas nuevas que se pueden crear. Con todo lo que has aprendido hasta ahora ya eres capaz de continuar, con un poco de esfuerzo y autonomía, mejorando este proyecto.
+
+🔎 Ahora queremos invitarte a que hagas un deploy de tu proyecto. Te compartimos nuestra cápsula de deploy...
+
+<div align="center">
+   <a href="https://rise.articulate.com/share/YKtorcVy0_ch_T7ETfudX4olPcYcXE6o#/">
+      <img src="./logo.png" alt="" width="50%" style="border-radius: 20vw;" />
+   </a>
+</div>
+
+> [**NOTA**]: has click sobre la imagen.
+
+</br>
+
+---
+
+## **📌 EXTRA CREDIT**
+
+1. El primer ejercicio **`extra`** que te invitamos a desarrollar es un formulario del lado Front-End que le permita a un usuario registrarse en tu aplicación. Estos datos se guardarán automáticamente en la base de datos.
+
+Este es un gran desafío, porque no solo tendrás que conectar tu Servidor con el Cliente, sino que también tendrás que pensar en una lógica del lado Front-End para que el usuario pueda cambiar de vista para poder logearse, y sin que aún tenga acceso a la app.
+
+</br >
+
+2. Algunos de los tests que realizaste en el módulo 3 ya no te serviran con estas nuevas rutas. Por lo tanto puedes intentar volver a realizar los tests, pero con las nuevas rutas.
