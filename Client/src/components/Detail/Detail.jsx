@@ -21,16 +21,20 @@ const Detail = () => {
 
     return(
         <>
-        <h1>Detail</h1>
+        <h1 className={styles.h1}>Detail</h1>
         {
             character ? (
                 <div className={styles.divContenedor}>
-                    <img src={character.image} alt={character.name} />
-                    <h2>Name: {character.name}</h2>
-                    <h2>Status: {character.status}</h2>
-                    <h2>Species: {character.species}</h2>
-                    <h2>Gender: {character.gender}</h2>
-                    <h2>Origin: {character.origin?.name}</h2>
+                    <div className={styles.divMain}>
+                        <h2 className={styles.h2}>{character.name}</h2>
+                        <img src={character.image} alt={character.name} className={styles.img}/>
+                    </div>
+                    <div className={styles.divInfo}>
+                        <h2><span className={styles.span}>Status: </span>{character.status}</h2>
+                        <h2><span className={styles.span}>Species: </span>{character.species}</h2>
+                        <h2><span className={styles.span}>Gender:</span> {character.gender}</h2>
+                        <h2><span className={styles.span}>Origin: </span>{character.origin?.name}</h2>
+                    </div>
                 </div>
             )
              :  (

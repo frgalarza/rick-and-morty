@@ -29,5 +29,7 @@
 .btns:hover{
     cursor: pointer;
     transform: scale(1.2);
+    background-color: #88e23b;
+    color: #000;
 }
 
