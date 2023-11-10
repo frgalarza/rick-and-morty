@@ -8,6 +8,12 @@ export default function SearchBar(props) {
       setId( event.target.value)
    }
 
+   const handleKeyDown = (event) => {
+      if(event.key === 'Enter'){
+         agregarNoRepetidos(id)
+      }
+   }
+
    const agregarNoRepetidos = (id) => {
       let esta = false
       props.characters.map(character => {
@@ -22,8 +28,7 @@ export default function SearchBar(props) {
 
    return (
       <div className={styles.divInput}>
-         <input className={styles.input} type='search' onChange={handleChange} value={id} placeholder="Ingrese ID "/>
-         <button onClick={() => agregarNoRepetidos(id)} className={styles.btn}>Ir</button>
+         <input className={styles.input} type='search' onKeyDown={handleKeyDown} onChange={handleChange} value={id} placeholder="Ingrese ID "/>
       </div>
    );
 }

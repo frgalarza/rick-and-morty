@@ -5,24 +5,21 @@
     margin-top: 0;
 }
 
-.input {
-    width: 100%;
-    height: 42.5px;
-    line-height: 30px;
-    outline: 0;
-    border: 0;
-    font-size: 1em;
-    border-radius: 20px;
-    padding: 0 20px;
+.input{
+    background-color: transparent;
+    border: none;
+    height: 40%;
+    color: #88e23b;
+    border-bottom: 2px solid #88e23b;
+    font-size: 1.2rem;
 }
 
-.btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 17%;
-    height: 100%;
-    border-radius: 50%;
-    border: none;
-    background-color: rgb(155, 155, 155);
+.input:focus{
+    outline: none;
+}
+
+.input::placeholder{
+    color: #88e23b;
+    font-size: 1.2rem;
+    font-family: 'Rowdies', sans-serif;
 }

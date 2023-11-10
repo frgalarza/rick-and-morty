@@ -1,0 +1,42 @@
+.divFav{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 80%;
+    align-items: center;
+}
+
+.divCards{
+    display: flex;
+    width: 100%;
+    gap: 3%;
+}
+
+.divSelects{
+    width: 40%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.select{
+    background-color: transparent;
+    border: none;
+    color: #f30e0e;
+    border: 1px solid #f30e0e;
+    border-radius: 30px;
+    padding: 2%;
+    font-family: 'Rowdies', sans-serif;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #000;
+}
+
+.select:focus{
+    outline: none;
+    color: black;
+}
+
+.select:hover{
+    cursor: pointer;
+}
